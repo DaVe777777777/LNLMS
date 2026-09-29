@@ -1,0 +1,167 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Student.master.cs" Inherits="LittleNewton.Web.Student" %>
+<!DOCTYPE html>
+
+
+
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Little Newton - Student</title>
+	<%--<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">--%>
+
+	<!-- Open Sans font from Google CDN -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+
+	<!-- Pixel Admin's stylesheets -->
+	<link href="assets/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/pixel-admin.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/widgets.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/pages.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/rtl.min.css" rel="stylesheet" type="text/css">
+	<link href="assets/stylesheets/themes.min.css" rel="stylesheet" type="text/css">
+    <link href="assets/Content/css/custom.css" rel="stylesheet" type="text/css">
+
+    
+</head>
+    
+<body class="theme-default main-menu-animated">
+
+<form id="form1" runat="server">
+<script>var init = [];</script>
+    <div id="content-bg"><img src="assets/imgs/bg.jpg"/></div>
+    <div id="wrapper">
+            <a href="#" id="menu-toggle"><i class="navbar-icon fa fa-bars icon"></i></a>
+        <div id="main-nav">
+            <div id="brand-name" class="pull-left">
+                <span style="float:left;"><img src="assets/imgs/logo.png" class="img-responsive" style="position:absolute;" /></span>
+            </div>
+          <ul id="nav-menu">
+                <a href="../student-ebook" >
+                    <li>
+                        <i class="menu-icon fa fa fa-book"></i>&nbsp; GO TO E-BOOK
+                    </li>
+                </a>
+                <a href="/school-leaderboard" >
+                    <li>
+                        <i class="menu-icon  fa fa-bar-chart-o"></i>&nbsp; School Leaderboard
+                    </li>
+                </a>
+            </ul>
+            
+            <ul id="profile-name" class="pull-right">
+				<li id="message-wrapper">
+                    <a href="#" id="message-toggle"><i class="menu-icon fa fa-bell"></i></a>
+                    <span class="label bg-danger notification-count"><%= MessageCount %></span>
+                    <div class="messages-container">
+                          <asp:Repeater ID="rpList" runat="server">
+                            <ItemTemplate>
+                                <div class="message-item">
+                                    <asp:HiddenField ID="hfMsgID" runat="server" Value='<%# Eval("ID") %>' />
+                                    <span class="message-subject"><%# Eval("SubjectShort") %></span>
+                                    
+                                    <span class="message-date"><%# Eval("DateCreated","{0:d}") %> <asp:LinkButton ID="lnkOpen" runat="server" OnClick="Transaction_Click" CommandName="Open" CommandArgument='<%# Eval("ID")%>'><span class="btnOpenMessage pull-right">Open</span></asp:LinkButton></span>
+                                    <div class="message-from"><i><%# Eval("MessageFrom") %> </i></div>
+                                </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+                    <a href="student-change-password" id="A1"><i class="menu-icon fa fa-key" title="Change Password"></i></a>
+				</li>
+				<li class="dropdown">
+                        <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
+						<span><asp:Label ID="lblFullName" runat="server" Text="Marie Mapalad"></asp:Label></span>
+					</a>
+					<ul class="dropdown-menu" style="height:50px;">
+                        <li>
+                            <asp:LinkButton ID="lnkLogout" style="margin-top:-53px; " runat="server">Log Out</asp:LinkButton>
+						</li>
+					</ul>
+				</li>
+			</ul>
+        </div>
+
+        <div id="sidebar-wrapper">
+            <a href="#">
+                <img src="assets/imgs/sidebar-bg.png" class="sidebar-bg img-responsive" />
+            </a>
+            <div class="inner-box">
+                <div id="profile-image" class="img-responsive">
+                    <img src="assets/imgs/blank-profile.jpg"/>
+                </div>
+                <div id="student-fname"><asp:Label ID="lblFirstName" runat="server" Text="PETER"></asp:Label></div>
+                <div id="student-lname"><asp:Label ID="lblLastName" runat="server" Text="RAMOS"></asp:Label></div>
+                <div id="student-class"><asp:Label ID="lblGradeLevel" runat="server" Text="Grade 1"></asp:Label></div>
+                <div id="student-section"><asp:Label ID="lblSection" runat="server" Text="Hope"></asp:Label></div>
+                <br />
+                <div id="student-teacher">Teacher<br /><asp:Label ID="lblTeacherName" runat="server" Text="Mrs. Marie M. Malapad"></asp:Label></div>
+                <a href="#" class="btn-message-teacher" data-toggle="modal" data-target="#modalMessage">Message Teacher</a>
+            </div>
+        </div> 
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </div> 
+    
+    <!-- Modal -->
+	<div id="modalMessage" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">Message Teacher</h4>
+				</div>
+				<div class="modal-body">
+                    <asp:TextBox ID="txtSubject" CssClass="form-control" runat="server" placeholder="Subject" ></asp:TextBox> <br />
+                    <asp:TextBox ID="txtBody" runat="server" CssClass="form-control" placeholder="Message" TextMode="MultiLine" Height="400px"></asp:TextBox>
+                </div> <!-- / .modal-body -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button id="btnSendMessage" type="button" class="btn btn-success" runat="server">Send Message</button>
+				</div>
+			</div> <!-- / .modal-content -->
+		</div> <!-- / .modal-dialog -->
+	</div> <!-- /.modal -->
+	<!-- / Modal -->
+
+</form>
+    <div class="branding">
+        Copyright © <asp:Label ID="lblCopyright" runat="server"/> Leaderscom. Designed & Developed by: <a href="http://programositsolutions.com/" target="_blank" >PROGRAMOS IT SOLUTIONS</a>
+    </div>
+<!-- Pixel Admin's javascripts -->
+<script src="assets/Content/js/jQuery-2.1.4.min.js"></script>
+<script src="assets/javascripts/bootstrap.min.js"></script>
+<script src="assets/javascripts/pixel-admin.min.js"></script>
+
+<script type="text/javascript">
+    init.push(function () {
+        $("#menu-toggle").click(function (e) {
+            console.log("toggled");
+            e.preventDefault();
+            $("#wrapper").toggleClass("menuDisplayed");
+        });
+    });
+
+
+    init.push(function () {
+        $("#message-toggle").click(function (e) {
+            console.log("toggled");
+            e.preventDefault();
+            $("#message-wrapper").toggleClass("messages-container-toggle");
+        });
+    });
+
+    window.PixelAdmin.start(init);
+
+</script>
+<asp:ContentPlaceHolder ID="scripts" runat="server">
+    </asp:ContentPlaceHolder>
+
+</body>
+</html>
